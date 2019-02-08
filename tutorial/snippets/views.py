@@ -7,7 +7,7 @@ from snippets.serializers import SnippetSerializer
 
 
 @api_view(['GET', 'POST'])
-def snippet_list(request):
+def snippet_list(request, format=None):
     """
     - 全ての snippets を表示する。
     - 新しい snippet を作成する
@@ -27,7 +27,7 @@ def snippet_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def snippet_detail(request, pk):
+def snippet_detail(request, pk, format=None):
     """
     単一のスニペットの、取得・更新・削除を行う。
     """
