@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer, UserSerializer
+from snippets.permissions import IsOwnerOrReadOnly
 
 
 class SnippetList(generics.ListCreateAPIView):
@@ -11,7 +12,8 @@ class SnippetList(generics.ListCreateAPIView):
     """
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
 
     # 新規作成（POST）時にはユーザ情報を一緒に保存する
     def perform_create(self, serializer):
@@ -24,7 +26,8 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 
 class UserList(generics.ListAPIView):
