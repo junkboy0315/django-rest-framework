@@ -11,6 +11,9 @@ class SnippetList(generics.ListCreateAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
 
+    # 新規作成（POST）時にはユーザ情報を一緒に保存する
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     """
